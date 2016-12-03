@@ -1,7 +1,7 @@
 nss-run
 =======
 
-nss-run (Not So Simple Run) is a very simplistic build tool.
+nss-run (not so simple run) is a very simplistic build tool.
 
 Instead of something like `gulp` or `grunt` where you are
 required to execute all your build steps thru plugins `nss-run`
