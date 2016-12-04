@@ -32,9 +32,12 @@ export default class TaskCollector {
         return !!this.tasks[name];
     }
 
-    runTask(name, args = []) {
+    runTask(name, args = [], exitOnNotFound = false) {
         if (!this.hasTask(name)) {
             console.log(chalk.red(`No Task with name '${chalk.cyan(name)}' found`));
+            if (exitOnNotFound) {
+                process.exit(1);
+            }
             return undefined;
         }
 

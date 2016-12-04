@@ -12,7 +12,7 @@ export function processArgs([name, ...args]) {
         taskCollector.printHelp();
         return undefined;
     }
-    return taskCollector.runTask(name, args.slice(1));
+    return taskCollector.runTask(name, args.slice(1), true);
 }
 
 export function task(name, fn, options) {
@@ -27,22 +27,26 @@ export function taskGroup(name, tasksToExecute, options) {
     });
 
     return taskCollector.addTask(name, (...args) => {
-        tasksToExecute.forEach(t => taskCollector.runTask(t, args));
+        tasksToExecute.forEach(t => taskCollector.runTask(t, args, false));
     }, options);
 }
 
 export function runTask(name, ...args) {
-    return taskCollector.runTask(name, args);
+    return taskCollector.runTask(name, args, false);
 }
 
-export function run(cmd, options = {
-    env: process.env,
-    stream: true,
-    async: false,
-}, cb = undefined) {
+export function run(cmd, options = {}, cb = undefined) {
     const envPath = options.env.PATH ? options.env.PATH : process.env.PATH;
 
-    options.env.PATH = [path.join(process.cwd(), 'node_modules', '.bin'), envPath].join(path.delimiter); // eslint-disable-line no-param-reassign
+    /* eslint-disable no-param-reassign */
+    options.env = options.env || process.env;
+    options.stream = options.stream || true;
+    options.async = options.async || false;
+    options.env.PATH = [path.join(process.cwd(), 'node_modules', '.bin'), envPath].join(path.delimiter);
+    if (!options.async && options.stream) {
+        options.stdio = options.stdio || 'inherit';
+    }
+    /* eslint-enable no-param-reassign */
 
     console.log(chalk.bold(`>>> Executing ${chalk.cyan(cmd)}`));
     if (options.async || !!cb) {
@@ -61,9 +65,6 @@ export function run(cmd, options = {
         }).asCallback(cb);
     }
 
-    if (options.stream) {
-        options.stdio = options.stdio || 'inherit'; // eslint-disable-line no-param-reassign
-    }
     try {
         return chProcess.execSync(cmd, options);
     } catch (error) {
