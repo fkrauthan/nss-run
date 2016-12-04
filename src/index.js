@@ -36,12 +36,11 @@ export function runTask(name, ...args) {
 }
 
 export function run(cmd, options = {}, cb = undefined) {
-    const envPath = options.env.PATH ? options.env.PATH : process.env.PATH;
-
     /* eslint-disable no-param-reassign */
     options.env = options.env || process.env;
     options.stream = options.stream || true;
     options.async = options.async || false;
+    const envPath = options.env.PATH ? options.env.PATH : process.env.PATH;
     options.env.PATH = [path.join(process.cwd(), 'node_modules', '.bin'), envPath].join(path.delimiter);
     if (!options.async && options.stream) {
         options.stdio = options.stdio || 'inherit';
