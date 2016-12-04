@@ -22,7 +22,7 @@ function fileExists(fileName) {
 }
 
 // Print out name and version
-console.log(chalk.yellow(packageJson.name + ' (v' + packageJson.version + ')'));
+console.log(chalk.yellow(packageJson.name + ' (v' + packageJson.version + ')')); // eslint-disable-line prefer-template
 console.log();
 
 // Process build file

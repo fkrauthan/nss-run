@@ -53,20 +53,20 @@ export default class TaskCollector {
     }
 
     printHelp() {
-        console.log();
-
         console.log(chalk.bold('Available tasks:'));
-        Object.keys(this.tasks).forEach((name) => {
-            const options = this.tasks[name].options;
-            if (options.hidden) {
-                return;
-            }
-            if (options.description) {
-                console.log(`  ${chalk.cyan(name)} - ${options.description}`);
-            } else {
-                console.log(`  ${chalk.cyan(name)}`);
-            }
-        });
+        Object.keys(this.tasks)
+            .sort()
+            .forEach((name) => {
+                const options = this.tasks[name].options;
+                if (options.hidden) {
+                    return;
+                }
+                if (options.description) {
+                    console.log(`  ${chalk.cyan(name)} - ${options.description}`);
+                } else {
+                    console.log(`  ${chalk.cyan(name)}`);
+                }
+            });
 
         console.log();
     }

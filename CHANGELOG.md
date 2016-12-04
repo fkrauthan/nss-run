@@ -4,6 +4,9 @@ Changelog
 0.1.*
 -----
 
+* 0.1.3
+  * Added sorting of task names for help output
+
 * 0.1.2
   * Print out version on start
   * Fixed a possible error when using run
