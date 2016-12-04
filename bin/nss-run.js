@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 
+const packageJson = require('../package.json');
+
 const processArgs = require('../lib/index').processArgs;
 
 // Add a simple file check
@@ -18,6 +20,10 @@ function fileExists(fileName) {
         return false;
     }
 }
+
+// Print out name and version
+console.log(chalk.yellow(packageJson.name + ' (v' + packageJson.version + ')'));
+console.log();
 
 // Process build file
 if (fileExists('nss-runfile.js')) {
@@ -40,4 +46,5 @@ if (fileExists('nss-runfile.js')) {
 }
 
 // Check if task exists
+console.log();
 processArgs(process.argv.slice(2));
