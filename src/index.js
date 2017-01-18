@@ -7,6 +7,8 @@ import TaskCollector from './TaskCollector';
 
 const taskCollector = new TaskCollector();
 
+export { Promise };
+
 export function processArgs([name, ...args]) {
     if (!name) {
         taskCollector.printHelp();

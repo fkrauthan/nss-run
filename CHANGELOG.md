@@ -8,6 +8,8 @@ Changelog
   * Changed project direction and made everything async
   * Added promise as the way to go
   * Updated dependencies
+  * Extended `taskGroup` to allow task execution in sequence and parallel (following the
+    gulp syntax)
 
 0.1.*
 -----
