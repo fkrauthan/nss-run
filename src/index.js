@@ -32,16 +32,16 @@ function validateTaskToExecute(name, item, arrayCount = 0) {
 export function taskGroup(name, tasksToExecute, options) {
     validateTaskToExecute(name, tasksToExecute);
 
-    return taskCollector.addTask(name, (...args) => {
-        return tasksToExecute.reduce((accumulator, currentValue) => {
-            return accumulator.then((res) => {
+    return taskCollector.addTask(name, (...args) => (
+        tasksToExecute.reduce((accumulator, currentValue) => (
+            accumulator.then(() => {
                 if (Array.isArray(currentValue)) {
                     return Promise.all(currentValue.map(t => taskCollector.runTask(t, args, false)));
                 }
                 return taskCollector.runTask(currentValue, args, false);
-            });
-        }, Promise.resolve());
-    }, options);
+            })
+        ), Promise.resolve())
+    ), options);
 }
 
 export function runTask(name, ...args) {
