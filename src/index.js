@@ -10,7 +10,7 @@ const taskCollector = new TaskCollector();
 export function processArgs([name, ...args]) {
     if (!name) {
         taskCollector.printHelp();
-        return undefined;
+        return Promise.resolve();
     }
     return taskCollector.runTask(name, args.slice(1), true);
 }
@@ -19,15 +19,26 @@ export function task(name, fn, options) {
     return taskCollector.addTask(name, fn, options);
 }
 
+function validateTaskToExecute(name, item, arrayCount = 0) {
+    if (Array.isArray(item) && arrayCount < 2) {
+        item.forEach(i => validateTaskToExecute(name, i, arrayCount + 1));
+    } else if (typeof item !== 'string') {
+        throw new Error(`Task ${name} ' tasks ${item} is not a string`);
+    }
+}
+
 export function taskGroup(name, tasksToExecute, options) {
-    tasksToExecute.forEach((item) => {
-        if (typeof item !== 'string') {
-            throw new Error(`Task ${name} ' tasks ${item} is not a string`);
-        }
-    });
+    validateTaskToExecute(name, tasksToExecute);
 
     return taskCollector.addTask(name, (...args) => {
-        tasksToExecute.forEach(t => taskCollector.runTask(t, args, false));
+        return tasksToExecute.reduce((accumulator, currentValue) => {
+            return accumulator.then((res) => {
+                if (Array.isArray(currentValue)) {
+                    return Promise.all(currentValue.map(t => taskCollector.runTask(t, args, false)));
+                }
+                return taskCollector.runTask(currentValue, args, false);
+            });
+        }, Promise.resolve());
     }, options);
 }
 
@@ -35,39 +46,31 @@ export function runTask(name, ...args) {
     return taskCollector.runTask(name, args, false);
 }
 
-export function run(cmd, options = {}, cb = undefined) {
+export function run(cmd, options = {}) {
     /* eslint-disable no-param-reassign */
     options.env = options.env || process.env;
     options.stream = options.stream || true;
-    options.async = options.async || false;
+    options.canFail = options.canFail || false;
     const envPath = options.env.PATH ? options.env.PATH : process.env.PATH;
     options.env.PATH = [path.join(process.cwd(), 'node_modules', '.bin'), envPath].join(path.delimiter);
-    if (!options.async && options.stream) {
-        options.stdio = options.stdio || 'inherit';
-    }
     /* eslint-enable no-param-reassign */
 
     console.log(chalk.bold(`>>> Executing ${chalk.cyan(cmd)}`));
-    if (options.async || !!cb) {
-        return new Promise((resolve, reject) => {
-            const cmdProcess = chProcess.exec(cmd, options, (error, stdout) => {
-                if (error) {
+    return new Promise((resolve, reject) => {
+        const cmdProcess = chProcess.exec(cmd, options, (error, stdout) => {
+            if (error) {
+                if (options.canFail) {
                     reject(error);
                 } else {
-                    resolve(stdout);
+                    resolve(error);
                 }
-            });
-
-            if (options.stream) {
-                cmdProcess.stdout.pipe(process.stdout);
+            } else {
+                resolve(stdout);
             }
-        }).asCallback(cb);
-    }
+        });
 
-    try {
-        return chProcess.execSync(cmd, options);
-    } catch (error) {
-        console.log(chalk.red(`<<< ${chalk.cyan(cmd)} Command failed with exit code ${error.status}`));
-        return error.stdout;
-    }
+        if (options.stream) {
+            cmdProcess.stdout.pipe(process.stdout);
+        }
+    });
 }

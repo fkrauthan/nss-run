@@ -47,4 +47,6 @@ if (fileExists('nss-runfile.js')) {
 
 // Check if task exists
 console.log();
-processArgs(process.argv.slice(2));
+processArgs(process.argv.slice(2))
+    .then(() => process.exit(0))
+    .error(() => process.exit(-1));

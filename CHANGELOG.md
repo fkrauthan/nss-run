@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.2.*
+-----
+
+* 0.2.0
+  * Changed project direction and made everything async
+  * Added promise as the way to go
+  * Updated dependencies
+
 0.1.*
 -----
 

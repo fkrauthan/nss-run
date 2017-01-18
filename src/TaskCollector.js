@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import Promise from 'bluebird';
 
 export default class TaskCollector {
     constructor() {
@@ -38,18 +39,29 @@ export default class TaskCollector {
             if (exitOnNotFound) {
                 process.exit(1);
             }
-            return undefined;
+            return Promise.reject(new Error(`No Task with name '${name}' found`));
         }
 
-        let time = Date.now();
+        function finishRunTask(time) {
+            const formattedTime = ((Date.now() - time) / 1000).toFixed(2);
+            console.log(chalk.blue(`< Finished "${name}" in ${formattedTime}sec`));
+        }
 
-        console.log(chalk.blue(`> Running "${name}"...`));
-        const ret = this.tasks[name].fn.apply(null, args);
+        return new Promise((resolve, reject) => {
+            const time = Date.now();
 
-        time = ((Date.now() - time) / 1000).toFixed(2);
-        console.log(chalk.blue(`< Finished "${name}" in ${time}sec`));
-
-        return ret;
+            console.log(chalk.blue(`> Running "${name}"...`));
+            Promise
+                .resolve(this.tasks[name].fn.apply(null, args))
+                .then((data) => {
+                    finishRunTask(time);
+                    resolve(data);
+                })
+                .catch((error) => {
+                    finishRunTask(time);
+                    reject(error);
+                });
+        });
     }
 
     printHelp() {
