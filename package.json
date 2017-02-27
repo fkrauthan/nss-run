@@ -1,6 +1,6 @@
 {
   "name": "nss-run",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple build tool",
   "main": "lib/index.js",
   "author": "Florian Krauthan <mail@fkrauthan.de>",

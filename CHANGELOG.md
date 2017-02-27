@@ -4,6 +4,9 @@ Changelog
 0.2.*
 -----
 
+* 0.2.1
+  * Fixed the NPM version
+
 * 0.2.0
   * Changed project direction and made everything async
   * Added promise as the way to go
