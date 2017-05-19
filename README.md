@@ -1,4 +1,4 @@
-nss-run ![node version](https://img.shields.io/node/v/nss-run.svg) [![npm version](https://badge.fury.io/js/nss-run.svg)](https://badge.fury.io/js/runjs)
+nss-run [![npm version](https://badge.fury.io/js/nss-run.svg)](https://badge.fury.io/js/runjs)
 =======
 
 nss-run (not so simple run) is a very simplistic build tool.
