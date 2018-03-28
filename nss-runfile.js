@@ -13,7 +13,7 @@ nssRun.task('lint:nss-runfile', () => nssRun.run('eslint ./nss-runfile.js'));
 /**
  * Doc geneartion task
  */
-nssRun.task('doc', () => nssRun.run('jsdoc -d docs -R ./README.md ./src/index.js'));
+nssRun.task('doc', () => nssRun.run('jsdoc -d docs -R ./README.md ./src/index.js'), { description: 'Generates the plugin docs' });
 
 
 /**
@@ -31,4 +31,4 @@ nssRun.task('interactive-test', () => nssRun.run('./test/interactive.sh', {
             hide: true,
         },
     ],
-}, { hide: true }));
+}, { hidden: true }));
