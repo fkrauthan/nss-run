@@ -7,6 +7,8 @@ Changelog
 * 0.3.0
   * Updated dependencies
   * Exposed `chalk` for color support within tasks
+  * Added `jsdoc` to all nss-runfile relevant functions
+  * Added a new subsystem for the `run` method to automatic answer interactive programs
 
 
 0.2.*

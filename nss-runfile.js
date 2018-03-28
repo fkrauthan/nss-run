@@ -8,3 +8,27 @@ nssRun.taskGroup('lint', ['lint:source', 'lint:bin', 'lint:nss-runfile'], { desc
 nssRun.task('lint:source', () => nssRun.run('eslint ./src'));
 nssRun.task('lint:bin', () => nssRun.run('eslint ./bin'));
 nssRun.task('lint:nss-runfile', () => nssRun.run('eslint ./nss-runfile.js'));
+
+
+/**
+ * Doc geneartion task
+ */
+nssRun.task('doc', () => nssRun.run('jsdoc -d docs -R ./README.md ./src/index.js'));
+
+
+/**
+ * Internal testing task to test interactive commands
+ */
+nssRun.task('interactive-test', () => nssRun.run('./test/interactive.sh', {
+    autoAnswer: [
+        {
+            search: 'enter your name:',
+            answer: 'NSS Runfile\n',
+        },
+        {
+            search: 'what is your age:',
+            answer: '2\n',
+            hide: true,
+        },
+    ],
+}, { hide: true }));
