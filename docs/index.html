@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>nss-run</h1><p>nss-run (not so simple run) is a very simplistic build tool.</p>
+<p>Instead of something like <code>gulp</code> or <code>grunt</code> where you are
+required to execute all your build steps thru plugins <code>nss-run</code>
+just gives you a easy way to call any external tool without
+having to find a special plugin first.</p>
+<blockquote>
+<p>In version &gt;=0.2 the style of this plugin got changed from being sync to async (through Promise) only.
+This change allows way more complex tasks. In most cases it should be very simply to migrate.
+Please take a look at the UPGRADE documentation!</p>
+</blockquote>
+<h2>Get started</h2><p>Install globally (for a command line script):</p>
+<pre class="prettyprint source"><code>npm install nss-run -g
+
+or
+
+yarn global add nss-run</code></pre><p>Install in your project (to use nss-run api inside your <code>nss-runfile.js</code>):</p>
+<pre class="prettyprint source"><code>npm install nss-run --save-dev
+
+or
+
+yarn add nss-run --dev</code></pre><p>If you want to use Babel (6.x)</p>
+<pre class="prettyprint source"><code>npm install babel-core babel-preset-env babel-register --save-dev
+
+or
+
+yarn add babel-core babel-preset-env babel-register --dev</code></pre><p>Create a <code>nss-runfile.js</code> (if you don't wanna use babel) / <code>nss-runfile.babel.js</code> (if you wanna use babel)</p>
+<pre class="prettyprint source lang-javascript"><code>import { task, taskGroup, runTask, run } from &quot;nss-run&quot;;
+
+task(&quot;create:component&quot;, function (name) {
+    console.log(&quot;Component with name &quot; + name + &quot; created&quot;);
+});
+
+task(&quot;lint&quot;, function () {
+    return runTask(&quot;lint:test&quot;)
+        .then(function () {
+            return runTask(&quot;lint:source&quot;);
+        });
+});
+
+taskGroup(&quot;lint:test&quot;, [&quot;lint:test:unit&quot;, &quot;lint:test:integration&quot;]);
+
+task(&quot;lint:test:unit&quot;, function () {
+    return run(&quot;eslint ./test/unit&quot;);
+});
+
+// With ES6 Arrow functions you can do this
+task(&quot;lint:test:integration&quot;, () => run(&quot;eslint ./test/integration&quot;));
+
+// And with babel (enabling async/await) you can also do this
+task(&quot;lint:source&quot;, async () => {
+    await run(&quot;eslint ./src&quot;);
+    // Do something else here
+});</code></pre><p>Run:</p>
+<pre class="prettyprint source"><code>nss-run create:component test
+nss-run lint
+nss-run lint:test
+nss-run lint:test:unit</code></pre><p>Tips:</p>
+<ul>
+<li><code>./node_modules/.bin/</code> is included into PATH when running commands by <code>nss-run</code> api method</li>
+<li>Executing <code>nss-run</code> command without arguments displays list of all available tasks (+ description if available)</li>
+<li><code>nss-run</code> will automatic require <code>babel-register</code> if it can not find a <code>nss-runfile.js</code> but 
+a <code>nss-runfile.babel.js</code> before including the runfile.</li>
+</ul>
+<h2>Why nss-run?</h2><p>Is there really a need for a new build tool? We already have Grunt, Gulp,
+npm scripts, Makefile, runjs and many more.</p>
+<p>Gulp and Grunt are very complex and require special plugins to run the tools
+that make our nodejs development environment.</p>
+<p>Makefiles require you to install a tool outside of the nodejs ecosystem which
+makes getting started with a project harder then it needs to be.</p>
+<p>npm scripts in my opinion are creating to much clutter within your package.json
+Your dependency file should not need to know how to build your project.</p>
+<p>runjs is already going into the right direction (and this tool is heavily inspired
+by runjs). But some of the design decisions (it is to simple) makes it hard to be
+used for bigger projects where you just need a bit more flexibility in terms of
+how you wanna organize your tasks. In addition the design to make it all synchronize
+can cause a lot conflicts with existing nodejs libraries that might not support
+synchronized execution (e.g. some file parsers).</p>
+<p>nss-run provides you with an very simple way to execute command line tools, npm
+installed tools as well as writing custom Javascript and using any npm library
+to create your own simple processing. No need to wait until a plugin makes your
+favorite tool available thru your build tool. I tried to combine my favorite part
+of gulp (the task definition system) and the simplicity of runjs to create a simpel
+(but not so simple ;)) build tool for any project size.</p>
+<h2>API</h2><pre class="prettyprint source lang-javascript"><code>import { task, taskGroup, runTask, run } from &quot;nss-run&quot;;</code></pre><p><strong>task(name, cb[, options])</strong></p>
+<p>Register a new task with the given name (do not use spaces in your name). If the task is 
+going to be called the provided callback will be executed. A task might return a <code>Promise</code>
+to wait for async code to complete. Otherwise the task will be finished as soon as the
+callback returns.</p>
+<p>Options:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    description: ..., // provide a description for this task for the task list output (String)
+    hidden: ..., // Hide this task from the task list output (true/false) - default: false
+}</code></pre><p>Examples:</p>
+<pre class="prettyprint source lang-javascript"><code>task(&quot;test&quot;, function () {
+    // my task logic here
+});
+task(&quot;test&quot;, function () {
+    // my task logic here
+}, {
+    description: &quot;My test description&quot;
+});</code></pre><p><strong>taskGroup(name, tasksToExecute[, options])</strong></p>
+<p>Registers a new task (do not use spaces in your task name) that when called automatic 
+calls all provided task names in a sequence (<code>tasksToExecute</code> has to be a string array). If
+you provide within the <code>tasksToExecute</code> array a array of strings the tasks in that sub array
+are going to be executed in parallel before proceeding with the next sequence item.
+The options are the same as the options for <code>task</code>.</p>
+<p>Options:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    description: ..., // provide a description for this task for the task list output (String)
+    hidden: ..., // Hide this task from the task list output (true/false) - default: false
+}</code></pre><p>Examples:</p>
+<pre class="prettyprint source lang-javascript"><code>taskGroup(&quot;test&quot;, [&quot;task1&quot;, &quot;task2&quot;, &quot;task3&quot;]);
+taskGroup(&quot;test&quot;, [&quot;task1&quot;, &quot;task2&quot;, &quot;task3&quot;], {
+    description: &quot;This task will call first task1, then task2 and last task3&quot;
+});
+taskGroup(&quot;test&quot;, [[&quot;task1&quot;, &quot;task2&quot;], &quot;task3&quot;]);</code></pre><p><strong>runTask(name[, arg1[, ...]])</strong></p>
+<p>This will execute a registered task with the given name. All arguments you pass
+after the name will be directly passed thru to the tasks function callback. This method
+will always return a Promise that you should use to find out if the tasks has finished.</p>
+<p>Examples:</p>
+<pre class="prettyprint source lang-javascript"><code>runTask(&quot;lint&quot;);
+runTask(&quot;lint&quot;, true, &quot;my-second-argument&quot;);</code></pre><p><strong>run(cmd[, options])</strong></p>
+<p>Run given command as a child process and log the call in the output. It will always return
+a promise.</p>
+<p>Options:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    cwd: ..., // current working directory (String)
+    canFail: ..., // should promise be failed if program execution failed/returned error (true/false) - default: false
+    stream: ..., // directly log the process output (true/false) - default: true
+    env: ..., // environment variables to be passed down to the command (object)
+    autoAnswer: ... // an array of auto answer objects to automatic answer interactive shell questions (array of Auto Answer Object's)
+}</code></pre><p>Auto Answer Object:</p>
+<pre class="prettyprint source lang-javascript"><code>    search: ..., // the text to search for in the commands output (String)
+    answer: ..., // the answer either a string or a function that either returns the answer string or a Promise (String|Function)
+    hide: ..., // hide the answer in the terminal output if streaming is enabled (true/false) - default: false</code></pre><p>Examples:</p>
+<pre class="prettyprint source lang-javascript"><code>run(&quot;rm -rf ./lib&quot;);
+run(&quot;http-server .&quot;).then((stdout) => {
+    log(stdout);
+}).catch((error) => {
+    throw error;
+});
+run(&quot;http-server .&quot;, { stream: false }).then((stdout) => {
+    log(stdout);
+}).catch((error) => {
+    throw error;
+});</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#run">run</a></li><li><a href="global.html#runTask">runTask</a></li><li><a href="global.html#task">task</a></li><li><a href="global.html#taskGroup">taskGroup</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 28 2018 00:05:03 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -11,7 +11,7 @@ nssRun.task('lint:nss-runfile', () => nssRun.run('eslint ./nss-runfile.js'));
 
 
 /**
- * Doc geneartion task
+ * Doc generation task
  */
 nssRun.task('doc', () => nssRun.run('jsdoc -d docs -R ./README.md ./src/index.js'), { description: 'Generates the plugin docs' });
 
