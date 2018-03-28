@@ -7,7 +7,7 @@ import TaskCollector from './TaskCollector';
 
 const taskCollector = new TaskCollector();
 
-export { Promise };
+export { Promise, chalk };
 
 export function processArgs([name, ...args]) {
     if (!name) {

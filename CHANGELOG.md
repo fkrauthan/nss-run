@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.3.*
+-----
+
+* 0.3.0
+  * Updated dependencies
+  * Exposed `chalk` for color support within tasks
+
+
 0.2.*
 -----
 

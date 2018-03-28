@@ -69,7 +69,7 @@ export default class TaskCollector {
         Object.keys(this.tasks)
             .sort()
             .forEach((name) => {
-                const options = this.tasks[name].options;
+                const { options } = this.tasks[name];
                 if (options.hidden) {
                     return;
                 }
@@ -82,5 +82,4 @@ export default class TaskCollector {
 
         console.log();
     }
-
 }

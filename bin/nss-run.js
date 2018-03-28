@@ -5,7 +5,7 @@ const chalk = require('chalk');
 
 const packageJson = require('../package.json');
 
-const processArgs = require('../lib/index').processArgs;
+const nssRun = require('../lib/index');
 
 // Add a simple file check
 function assemblePath(fileName) {
@@ -47,6 +47,6 @@ if (fileExists('nss-runfile.js')) {
 
 // Check if task exists
 console.log();
-processArgs(process.argv.slice(2))
+nssRun.processArgs(process.argv.slice(2))
     .then(() => process.exit(0))
     .error(() => process.exit(-1));
