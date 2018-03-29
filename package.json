@@ -1,7 +1,8 @@
 {
   "name": "nss-run",
   "version": "0.3.0",
-  "description": "A simple build tool",
+  "description": "nss-run (not so simple run) is a very simplistic build tool.",
+  "keywords": ["task", "cli", "run", "async", "make", "build", "tool", "buildtool"],
   "main": "lib/index.js",
   "author": "Florian Krauthan <mail@fkrauthan.de>",
   "license": "MIT",
@@ -14,14 +15,11 @@
     "prestart": "yarn run build",
     "build": "babel src/ --out-dir lib/"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fkrauthan/nss-run.git"
-  },
+  "repository": "github:fkrauthan/nss-run",
   "bugs": {
     "url": "https://github.com/fkrauthan/nss-run/issues"
   },
-  "homepage": "https://github.com/fkrauthan/nss-run#readme",
+  "homepage": "https://fkrauthan.github.io/nss-run/",
   "dependencies": {
     "bluebird": "^3.4.6",
     "chalk": "^2.3.2"
