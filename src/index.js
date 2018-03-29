@@ -54,7 +54,7 @@ function validateTaskToExecute(name, item, arrayCount = 0) {
  * The options are the same as the options for `task`.
  *
  * @param {string} name - The unique task name
- * @param {string[]} tasksToExecute - The task names to be executed
+ * @param {string[]} tasksToExecute - The task names to be executed (they will be executed in sequence. If you provide a array instead of a string as your array element all tasks within the inner array are getting executed in parallel)
  * @param {TaskOptions} [options] - The task options
  */
 export function taskGroup(name, tasksToExecute, options) {
