@@ -6,7 +6,7 @@ Changelog
 
 * 0.3.1
   * Updated dependencies
-  * Fixed a bug where the cli was never returing an error code even if execution failed
+  * Fixed a bug where the cli was never returning an error code even if execution failed
 
 * 0.3.0
   * Updated dependencies
