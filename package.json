@@ -1,6 +1,6 @@
 {
   "name": "nss-run",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "nss-run (not so simple run) is a very simplistic build tool.",
   "keywords": ["task", "cli", "run", "async", "make", "build", "system", "tool", "buildtool"],
   "main": "lib/index.js",
