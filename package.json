@@ -21,15 +21,16 @@
   },
   "homepage": "https://fkrauthan.github.io/nss-run/",
   "dependencies": {
-    "bluebird": "^3.4.6",
-    "chalk": "^2.3.2"
+    "bluebird": "^3.7.2",
+    "chalk": "^4.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "2.9.0",
-    "jsdoc": "^3.5.5"
+    "@babel/core": "^7.10.3",
+    "@babel/cli": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "2.21.2",
+    "jsdoc": "^3.6.4"
   }
 }

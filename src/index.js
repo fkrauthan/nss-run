@@ -40,7 +40,7 @@ export function task(name, fn, options) {
 
 function validateTaskToExecute(name, item, arrayCount = 0) {
     if (Array.isArray(item) && arrayCount < 2) {
-        item.forEach(i => validateTaskToExecute(name, i, arrayCount + 1));
+        item.forEach((i) => validateTaskToExecute(name, i, arrayCount + 1));
     } else if (typeof item !== 'string') {
         throw new Error(`Task ${name} ' tasks ${item} is not a string`);
     }
@@ -64,7 +64,7 @@ export function taskGroup(name, tasksToExecute, options) {
         tasksToExecute.reduce((accumulator, currentValue) => (
             accumulator.then(() => {
                 if (Array.isArray(currentValue)) {
-                    return Promise.all(currentValue.map(t => taskCollector.runTask(t, args, false)));
+                    return Promise.all(currentValue.map((t) => taskCollector.runTask(t, args, false)));
                 }
                 return taskCollector.runTask(currentValue, args, false);
             })
@@ -83,7 +83,6 @@ export function taskGroup(name, tasksToExecute, options) {
 export function runTask(name, ...args) {
     return taskCollector.runTask(name, args, false);
 }
-
 
 /**
  * @typedef {Object} AutoAnswerItem
