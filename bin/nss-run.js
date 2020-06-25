@@ -49,4 +49,4 @@ if (fileExists('nss-runfile.js')) {
 console.log();
 nssRun.processArgs(process.argv.slice(2))
     .then(() => process.exit(0))
-    .error(() => process.exit(-1));
+    .catch(() => process.exit(1));
