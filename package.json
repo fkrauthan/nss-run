@@ -13,7 +13,8 @@
   "scripts": {
     "start": "node bin/nss-run.js",
     "prestart": "yarn run build",
-    "build": "babel src/ --out-dir lib/"
+    "build": "babel src/ --out-dir lib/",
+    "lint": "eslint ./bin ./src"
   },
   "repository": "github:fkrauthan/nss-run",
   "bugs": {
@@ -22,15 +23,15 @@
   "homepage": "https://fkrauthan.github.io/nss-run/",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/cli": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "eslint": "^7.3.1",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "2.21.2",
-    "jsdoc": "^3.6.4"
+    "@babel/core": "^7.18.5",
+    "@babel/cli": "^7.17.10",
+    "@babel/preset-env": "^7.18.2",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jsdoc": "^3.6.10"
   }
 }

@@ -5,6 +5,7 @@ const chalk = require('chalk');
 
 const packageJson = require('../package.json');
 
+// eslint-disable-next-line import/extensions,import/no-unresolved
 const nssRun = require('../lib/index');
 
 // Add a simple file check
