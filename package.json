@@ -13,8 +13,7 @@
   "scripts": {
     "start": "node bin/nss-run.js",
     "prestart": "yarn run build",
-    "build": "babel src/ --out-dir lib/",
-    "lint": "eslint ./bin ./src"
+    "build": "babel src/ --out-dir lib/"
   },
   "repository": "github:fkrauthan/nss-run",
   "bugs": {
