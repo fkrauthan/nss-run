@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import Promise from 'bluebird';
 
 export default class TaskCollector {
     constructor() {
