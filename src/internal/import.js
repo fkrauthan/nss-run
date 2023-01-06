@@ -1,3 +1,5 @@
-export default function import_(filepath) {
-    return import(filepath);
-}
+module.exports = {
+    default: function import_(filepath) {
+        return import(filepath);
+    },
+};

@@ -2,19 +2,13 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 
+// eslint-disable-next-line no-underscore-dangle
 let import_;
 try {
     // Node < 13.3 doesn't support import() syntax.
-    import_ = require("./import").default;
-} catch {}
-
-
-const CONFIG_FILENAMES = {
-    'nss-runfile.js': loadCjsThenMjs,
-    'nss-runfile.cjs': loadCjs,
-    'nss-runfile.mjs': loadMjs,
-    'nss-runfile.babel.js': loadBabelJs,
-};
+    // eslint-disable-next-line global-require
+    import_ = require('./import').default;
+} catch (e) { /* empty */ }
 
 function assemblePath(fileName) {
     return path.resolve('.', fileName);
@@ -30,28 +24,25 @@ async function fileExists(fileName) {
 }
 
 function loadCjs(file) {
+    // eslint-disable-next-line import/no-dynamic-require,global-require
     require(assemblePath(file));
 }
 
 async function loadMjs(file) {
     if (!import_) {
         throw new Error(
-            "Internal error: Native ECMAScript modules aren't supported" +
-            " by this platform.\n",
+            "Internal error: Native ECMAScript modules aren't supported"
+            + ' by this platform.\n',
         );
     }
 
-    await import_(assemblePath(file));
+    await import_(`file://${assemblePath(file)}`);
 }
 
 async function loadCjsThenMjs(file) {
     try {
         loadCjs(file);
     } catch (e) {
-        if (e.code !== "ERR_REQUIRE_ESM") {
-            throw e;
-        }
-
         await loadMjs(file);
     }
 }
@@ -66,24 +57,21 @@ function loadBabelJs(file) {
     loadCjs(file);
 }
 
-async function tryLoad(file, loader, throwError = false) {
-    try {
-        console.log(chalk.blue("Detected '") + chalk.cyan(file) + chalk.blue("'..."));
-        await loader(file);
-        return true;
-    } catch (e) {
-        if (throwError) {
-            throw e;
-        }
-        return false;
-    }
-}
+const CONFIG_FILENAMES = {
+    'nss-runfile.js': loadCjsThenMjs,
+    'nss-runfile.cjs': loadCjs,
+    'nss-runfile.mjs': loadMjs,
+    'nss-runfile.babel.js': loadBabelJs,
+};
 
-export async function loadConfig() {
+export default async function loadConfig() {
+    // eslint-disable-next-line no-restricted-syntax
     for (const [file, loader] of Object.entries(CONFIG_FILENAMES)) {
+        // eslint-disable-next-line no-await-in-loop
         const exists = await fileExists(file);
         if (exists) {
             console.log(chalk.blue("Detected '") + chalk.cyan(file) + chalk.blue("'..."));
+            // eslint-disable-next-line no-await-in-loop
             await loader(file);
             return;
         }

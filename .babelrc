@@ -6,5 +6,12 @@
       }
     }]
   ],
-  "ignore": ["internal/import\\.js"]
+  "overrides": [{
+    "test": "src/internal/import.js",
+    "presets": [
+      ["@babel/preset-env", {
+        "modules": false
+      }]
+    ]
+  }]
 }

@@ -8,6 +8,8 @@ Changelog
   * Updated dependencies
   * Switched project from `yarn` to `pnpm`
   * Removed `bluebird` as dependency
+  * `nss-runfile.babel.js` now requires `@babel/register`
+  * Added support for `nss-runfile.mjs` and `nss-runfile.cjs`
 
 
 0.3.*
