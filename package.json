@@ -2,7 +2,17 @@
   "name": "nss-run",
   "version": "0.3.2",
   "description": "nss-run (not so simple run) is a very simplistic build tool.",
-  "keywords": ["task", "cli", "run", "async", "make", "build", "system", "tool", "buildtool"],
+  "keywords": [
+    "task",
+    "cli",
+    "run",
+    "async",
+    "make",
+    "build",
+    "system",
+    "tool",
+    "buildtool"
+  ],
   "main": "lib/index.js",
   "author": "Florian Krauthan <mail@fkrauthan.de>",
   "license": "MIT",
@@ -21,12 +31,11 @@
   },
   "homepage": "https://fkrauthan.github.io/nss-run/",
   "dependencies": {
-    "bluebird": "^3.7.2",
     "chalk": "^4.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
     "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",

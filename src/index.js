@@ -1,13 +1,12 @@
 import path from 'path';
 import chProcess from 'child_process';
 import chalk from 'chalk';
-import Promise from 'bluebird';
 
 import TaskCollector from './TaskCollector';
 
 const taskCollector = new TaskCollector();
 
-export { Promise, chalk };
+export { chalk };
 
 export function processArgs([name, ...args]) {
     if (!name) {

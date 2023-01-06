@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.4.*
+-----
+
+* 0.4.0
+  * Updated dependencies
+  * Switched project from `yarn` to `pnpm`
+  * Removed `bluebird` as dependency
+
+
 0.3.*
 -----
 
