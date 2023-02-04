@@ -1,6 +1,6 @@
 {
   "name": "nss-run",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "nss-run (not so simple run) is a very simplistic build tool.",
   "keywords": [
     "task",
